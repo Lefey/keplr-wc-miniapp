@@ -16,7 +16,7 @@
       <button id="btn-open-pair">Открыть Keplr</button>
       <canvas id="qr"></canvas>
       <button id="btn-copy" class="secondary">Скопировать WC URI</button>
-      <p class="hint">Если приложение не открылось — отсканируйте QR в Keplr Mobile (иконка сканера в шапке) или вставьте URI.</p>
+      <p id="pairing-hint" class="hint">Если приложение не открылось — отсканируйте QR в Keplr Mobile (иконка сканера в шапке) или вставьте URI.</p>
     </div>
   </section>
 
@@ -35,7 +35,7 @@
     <label class="check"><input type="radio" name="mode" value="amino" /> AMINO (legacy JSON)</label>
     <button id="btn-send">Подписать и отправить</button>
 
-    <label class="check"><input id="auto-open" type="checkbox" checked /> Автоматически открывать Keplr при запросе</label>
+    <label id="auto-open-label" class="check"><input id="auto-open" type="checkbox" checked /> Автоматически открывать Keplr при запросе</label>
     <button id="btn-open" class="secondary">Открыть Keplr</button>
     <button id="btn-disconnect" class="danger">Отключиться</button>
   </section>

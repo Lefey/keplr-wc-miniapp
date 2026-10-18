@@ -1,6 +1,6 @@
 import QRCode from "qrcode";
 import { SigningStargateClient, GasPrice } from "@cosmjs/stargate";
-import { KeplrWC, openKeplr, type KeplrKey } from "./keplr-wc";
+import { KeplrWC, canOpenKeplr, openKeplr, type KeplrKey } from "./keplr-wc";
 import { CHAIN_ID, DECIMALS, DENOM, DISPLAY_DENOM, GAS_PRICE, REST, RPC } from "./config";
 
 declare global {
@@ -134,6 +134,11 @@ $<HTMLButtonElement>("btn-disconnect").onclick = async () => {
 };
 
 (async () => {
+  if (!canOpenKeplr) {
+    // на десктопе deep link не нужен: только QR, подтверждения — в Keplr на телефоне
+    for (const id of ["btn-open-pair", "btn-open", "auto-open-label"]) $(id).hidden = true;
+    $("pairing-hint").textContent = "Отсканируйте QR в Keplr Mobile (иконка сканера в шапке). Запросы на подпись подтверждайте в Keplr на телефоне.";
+  }
   log(`Chain: ${CHAIN_ID}, Telegram: ${tg?.initData ? `${tg.platform} v${tg.version}` : "нет (обычный браузер)"}`);
   wc = await KeplrWC.init();
   $<HTMLButtonElement>("btn-connect").disabled = false;

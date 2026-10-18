@@ -38,8 +38,13 @@ export function keplrDeepLink(uri?: string): string {
 
 const tg = (window as any).Telegram?.WebApp;
 const inTelegram = !!tg?.initData;
+// Десктопные клиенты Telegram (tdesktop, macos, web*, unigram): Keplr на этом устройстве нет,
+// подключение только через сканирование QR телефоном
+const TG_MOBILE = ["android", "android_x", "ios"];
+export const canOpenKeplr = !inTelegram || TG_MOBILE.includes(tg.platform);
 
 export function openKeplr(uri?: string) {
+  if (!canOpenKeplr) return;
   const link = keplrDeepLink(uri);
   if (!inTelegram) {
     window.location.href = link;

@@ -25,3 +25,4 @@ code { word-break: break-all; font-size: 12px; }
 canvas { display: block; margin: 8px auto; max-width: 100%; border-radius: 8px; }
 .hint { color: var(--hint); font-size: 13px; }
 pre { background: var(--sec); padding: 10px; border-radius: 10px; font-size: 11px; white-space: pre-wrap; word-break: break-all; max-height: 40vh; overflow: auto; }
+[hidden] { display: none !important; }
