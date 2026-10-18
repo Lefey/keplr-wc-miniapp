@@ -156,6 +156,12 @@ async function pair(gesture: boolean) {
     }
   }
   const session = await approval;
+  if (wallet) {
+    // пока ждали QR, пользователь уже подключился другим способом — лишнюю сессию закрываем
+    log("WC сессия одобрена, но кошелёк уже подключён — закрываю её");
+    await wc.disconnect();
+    return;
+  }
   log("Сессия установлена:", session.peer.metadata.name, session.namespaces);
   $("pairing").hidden = true;
   // Сеть кастомная — сначала предлагаем её Keplr, затем enable и получаем ключ
