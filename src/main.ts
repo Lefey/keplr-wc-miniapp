@@ -1,13 +1,16 @@
 import QRCode from "qrcode";
 import { SigningStargateClient, GasPrice } from "@cosmjs/stargate";
-import { KeplrWC, canOpenKeplr, openKeplr, type KeplrKey } from "./keplr-wc";
+import { KeplrWC, canOpenKeplr, inTelegram, openKeplr, type KeplrKey } from "./keplr-wc";
 import { CHAIN_ID, DECIMALS, DENOM, DISPLAY_DENOM, GAS_PRICE, REST, RPC } from "./config";
+
+declare const __BUILD__: string;
 
 declare global {
   interface Window { Telegram?: { WebApp: any } }
 }
 
 const tg = window.Telegram?.WebApp;
+document.getElementById("build")!.textContent = `build ${__BUILD__}`;
 tg?.ready();
 tg?.expand();
 
@@ -139,7 +142,7 @@ $<HTMLButtonElement>("btn-disconnect").onclick = async () => {
     for (const id of ["btn-open-pair", "btn-open", "auto-open-label"]) $(id).hidden = true;
     $("pairing-hint").textContent = "Отсканируйте QR в Keplr Mobile (иконка сканера в шапке). Запросы на подпись подтверждайте в Keplr на телефоне.";
   }
-  log(`Chain: ${CHAIN_ID}, Telegram: ${tg?.initData ? `${tg.platform} v${tg.version}` : "нет (обычный браузер)"}`);
+  log(`Chain: ${CHAIN_ID}, Telegram: ${inTelegram ? `${tg.platform} v${tg.version}` : "нет (обычный браузер)"}, build ${__BUILD__}`);
   wc = await KeplrWC.init();
   $<HTMLButtonElement>("btn-connect").disabled = false;
   // Keplr открывается в момент отправки запроса на подпись (после симуляции газа и т.п.)

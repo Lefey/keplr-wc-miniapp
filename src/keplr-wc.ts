@@ -37,7 +37,8 @@ export function keplrDeepLink(uri?: string): string {
 }
 
 const tg = (window as any).Telegram?.WebApp;
-const inTelegram = !!tg?.initData;
+// platform === "unknown" — страница открыта не в Telegram (initData бывает пустым, напр. у keyboard-кнопок)
+export const inTelegram = !!tg && tg.platform !== "unknown";
 // Десктопные клиенты Telegram (tdesktop, macos, web*, unigram): Keplr на этом устройстве нет,
 // подключение только через сканирование QR телефоном
 const TG_MOBILE = ["android", "android_x", "ios"];
