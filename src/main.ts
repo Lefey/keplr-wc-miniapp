@@ -113,6 +113,12 @@ $<HTMLButtonElement>("btn-send").onclick = (e) =>
     refreshBalance().catch(() => {});
   });
 
+// Пока открыт Keplr, браузер/Telegram ставит страницу на паузу и fetch может упасть —
+// обновляем баланс при возврате в приложение
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") refreshBalance().catch(() => {});
+});
+
 $("btn-refresh").onclick = () => refreshBalance().catch((e) => log("Баланс:", e.message));
 $("btn-open").onclick = () => openKeplr();
 $<HTMLButtonElement>("btn-disconnect").onclick = async () => {
