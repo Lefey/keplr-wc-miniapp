@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Открыть Keplr</title>
+  <style>
+    body { margin: 0; padding: 24px 16px; font: 16px/1.4 system-ui, sans-serif; text-align: center; background: #fff; color: #111; }
+    @media (prefers-color-scheme: dark) { body { background: #17212b; color: #eee; } }
+    a.btn { display: block; margin: 12px 0; padding: 14px; border-radius: 12px; background: #2481cc; color: #fff; text-decoration: none; font-weight: 600; }
+    a.alt { background: #888; }
+    p { opacity: .7; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h2>Переход в Keplr…</h2>
+  <a id="open" class="btn" href="#">Открыть Keplr</a>
+  <a id="alt" class="btn alt" href="#" hidden>Открыть Keplr (keplrwallet://)</a>
+  <p>После подтверждения в Keplr вернитесь в Telegram.</p>
+  <script>
+    // Прокладка для Telegram Mini App: WebView Telegram не открывает кастомные схемы,
+    // поэтому TMA открывает эту https-страницу через WebApp.openLink, а она уже уводит в Keplr.
+    const to = new URLSearchParams(location.search).get("to") || "";
+    if (/^(keplrwallet|intent):\/\//.test(to)) {
+      document.getElementById("open").href = to;
+      if (to.startsWith("intent://")) {
+        // запасной вариант без intent: wcV2?<uri> → keplrwallet://wcV2?<uri>
+        const m = to.match(/^intent:\/\/([^#]*)#/);
+        const alt = document.getElementById("alt");
+        alt.href = "keplrwallet://" + (m ? m[1] : "wcV2");
+        alt.hidden = false;
+      }
+      location.href = to;
+    } else {
+      document.querySelector("h2").textContent = "Некорректная ссылка";
+    }
+  </script>
+</body>
+</html>
