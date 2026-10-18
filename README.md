@@ -24,7 +24,16 @@ Telegram открывает Mini App только по **HTTPS**:
 В проекте `5cce07bd1ae77f8df5af659ad1f8e0e5` в разделе Domain / Allowlist добавьте домен,
 с которого открыт Mini App (домен туннеля или хостинга). Иначе relay отклонит подключение.
 
-## Как работает
+## Выбор способа подключения
+
+| Где открыто | Что происходит |
+|---|---|
+| Браузер с расширением Keplr (или встроенный браузер Keplr Mobile) | подключение через `window.keplr`; WalletConnect — вторая кнопка |
+| Браузер без расширения | сразу QR WalletConnect; на телефоне ещё кнопка «Открыть Keplr» |
+| Telegram Android / iOS | QR + кнопка «Открыть Keplr» (через https-прокладку `open.html`) |
+| Telegram Desktop / macOS / Web | только QR |
+
+## Как работает WalletConnect
 
 1. `SignClient.connect` с namespace `cosmos:cosmoshub-4` (Keplr сессию для неизвестной сети
    не одобрит), методы `keplr_*`.
@@ -36,6 +45,7 @@ Telegram открывает Mini App только по **HTTPS**:
    идёт через RPC приложения. `preferNoSetFee: true` — комиссию задаёт приложение (0.01uatom × gas × 1.5).
 
 Файлы: `src/config.ts` — параметры сети, `src/keplr-wc.ts` — обёртка WalletConnect/Keplr,
+`src/keplr-ext.ts` — подключение через расширение,
 `src/main.ts` — UI и сценарии проверки.
 
 ## Тестовый кошелёк

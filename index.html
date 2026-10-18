@@ -12,7 +12,11 @@
   <div id="build" class="hint"></div>
 
   <section id="connect-box">
-    <button id="btn-connect" disabled>Подключить Keplr</button>
+    <div id="ext-box" hidden>
+      <button id="btn-ext">Подключить расширение Keplr</button>
+      <p class="hint">Найден Keplr в этом браузере. Можно подключить и мобильный Keplr через WalletConnect:</p>
+    </div>
+    <button id="btn-connect" disabled>Подключить Keplr (WalletConnect)</button>
     <div id="pairing" hidden>
       <button id="btn-open-pair">Открыть Keplr</button>
       <canvas id="qr"></canvas>
@@ -22,6 +26,7 @@
   </section>
 
   <section id="wallet-box" hidden>
+    <div class="row"><span>Кошелёк</span><b id="wallet-kind"></b></div>
     <div class="row"><span>Адрес</span><code id="addr"></code></div>
     <div class="row"><span>Баланс</span><b id="balance">—</b> <button id="btn-refresh" class="link">↻</button></div>
 
