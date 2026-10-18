@@ -106,8 +106,8 @@ $<HTMLButtonElement>("btn-send").onclick = (e) =>
       code: res.code,
       height: res.height,
       txhash: res.transactionHash,
-      gasUsed: res.gasUsed,
-      gasWanted: res.gasWanted,
+      gasUsed: res.gasUsed.toString(),
+      gasWanted: res.gasWanted.toString(),
       rawLog: res.rawLog,
     });
     refreshBalance().catch(() => {});
