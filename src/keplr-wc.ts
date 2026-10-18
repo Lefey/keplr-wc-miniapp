@@ -36,8 +36,19 @@ export function keplrDeepLink(uri?: string): string {
     : `keplrwallet://wcV2${q}`;
 }
 
+const tg = (window as any).Telegram?.WebApp;
+const inTelegram = !!tg?.initData;
+
 export function openKeplr(uri?: string) {
-  window.location.href = keplrDeepLink(uri);
+  const link = keplrDeepLink(uri);
+  if (!inTelegram) {
+    window.location.href = link;
+    return;
+  }
+  // WebView Telegram даёт ERR_UNKNOWN_URL_SCHEME на intent:// и keplrwallet://,
+  // поэтому открываем https-прокладку во внешнем браузере, а она перенаправляет в Keplr
+  const bridge = new URL(`open.html?to=${encodeURIComponent(link)}`, window.location.href).href;
+  tg.openLink(bridge);
 }
 
 export class KeplrWC {

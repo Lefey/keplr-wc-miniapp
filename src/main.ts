@@ -75,7 +75,11 @@ $<HTMLButtonElement>("btn-connect").onclick = (e) =>
     await QRCode.toCanvas($("qr"), uri, { width: 260, margin: 1 });
     $("btn-open-pair").onclick = () => openKeplr(uri);
     $("btn-copy").onclick = () => navigator.clipboard.writeText(uri).then(() => log("URI скопирован"));
-    openKeplr(uri);
+    try {
+      openKeplr(uri);
+    } catch (e: any) {
+      log("Авто-открытие не сработало, нажмите «Открыть Keplr»:", e?.message ?? String(e));
+    }
     const session = await approval;
     log("Сессия установлена:", session.peer.metadata.name, session.namespaces);
     $("pairing").hidden = true;
@@ -130,13 +134,19 @@ $<HTMLButtonElement>("btn-disconnect").onclick = async () => {
 };
 
 (async () => {
-  log(`Chain: ${CHAIN_ID}, Telegram: ${tg?.platform ?? "нет (обычный браузер)"}`);
+  log(`Chain: ${CHAIN_ID}, Telegram: ${tg?.initData ? `${tg.platform} v${tg.version}` : "нет (обычный браузер)"}`);
   wc = await KeplrWC.init();
   $<HTMLButtonElement>("btn-connect").disabled = false;
   // Keplr открывается в момент отправки запроса на подпись (после симуляции газа и т.п.)
   wc.onRequest = (method) => {
     log(`  запрос в кошелёк: ${method}`);
-    if ($<HTMLInputElement>("auto-open").checked) openKeplr();
+    if (!$<HTMLInputElement>("auto-open").checked) return;
+    try {
+      openKeplr();
+    } catch (e: any) {
+      // Telegram разрешает openLink только сразу после нажатия — тогда открывайте кнопкой
+      log("  авто-открытие не сработало, нажмите «Открыть Keplr»:", e?.message ?? String(e));
+    }
   };
   wc.client.on("session_delete", () => {
     key = undefined;
