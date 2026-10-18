@@ -1,0 +1,27 @@
+{
+  "name": "keplr-wc-miniapp",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "@cosmjs/amino": "^0.39.0",
+    "@cosmjs/proto-signing": "^0.39.0",
+    "@cosmjs/stargate": "^0.39.0",
+    "@walletconnect/sign-client": "^2.26.0",
+    "cosmjs-types": "^0.11.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "@cosmjs/crypto": "^0.39.0",
+    "@cosmjs/encoding": "^0.39.0",
+    "@types/qrcode": "^1.5.6",
+    "@walletconnect/types": "^2.26.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}

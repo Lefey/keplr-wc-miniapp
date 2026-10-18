@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Keplr WC Test</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <h1>Keplr × WalletConnect</h1>
+
+  <section id="connect-box">
+    <button id="btn-connect" disabled>Подключить Keplr</button>
+    <div id="pairing" hidden>
+      <button id="btn-open-pair">Открыть Keplr</button>
+      <canvas id="qr"></canvas>
+      <button id="btn-copy" class="secondary">Скопировать WC URI</button>
+      <p class="hint">Если приложение не открылось — отсканируйте QR в Keplr Mobile (иконка сканера в шапке) или вставьте URI.</p>
+    </div>
+  </section>
+
+  <section id="wallet-box" hidden>
+    <div class="row"><span>Адрес</span><code id="addr"></code></div>
+    <div class="row"><span>Баланс</span><b id="balance">—</b> <button id="btn-refresh" class="link">↻</button></div>
+
+    <h2>1. Подпись сообщения (ADR-36)</h2>
+    <input id="msg" value="Hello from Telegram Mini App" />
+    <button id="btn-sign-msg">Подписать сообщение</button>
+
+    <h2>2. Транзакция MsgSend</h2>
+    <input id="to" placeholder="Получатель (по умолчанию — свой адрес)" />
+    <input id="amount" type="number" value="1000" placeholder="Сумма, uatom" />
+    <label class="check"><input type="radio" name="mode" value="direct" checked /> SIGN_MODE_DIRECT</label>
+    <label class="check"><input type="radio" name="mode" value="amino" /> AMINO (legacy JSON)</label>
+    <button id="btn-send">Подписать и отправить</button>
+
+    <label class="check"><input id="auto-open" type="checkbox" checked /> Автоматически открывать Keplr при запросе</label>
+    <button id="btn-open" class="secondary">Открыть Keplr</button>
+    <button id="btn-disconnect" class="danger">Отключиться</button>
+  </section>
+
+  <h2>Лог</h2>
+  <pre id="log"></pre>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
